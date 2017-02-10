@@ -1,7 +1,7 @@
 package input;
 
 public class InputTeams {
-	
+
 	String teams;
 	
 	public InputTeams(){

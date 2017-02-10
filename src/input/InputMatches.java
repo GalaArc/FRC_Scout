@@ -4,9 +4,8 @@ public class InputMatches {
 	
 	int matchNumber;
 	
-	
 	public InputMatches(){
-		matchNumber = 0;
+		this.matchNumber = 0;
 		
 	}
 	
