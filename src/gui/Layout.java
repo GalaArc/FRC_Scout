@@ -5,14 +5,10 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -46,6 +42,10 @@ public class Layout extends Application{
 		mainMenuGrid.setPadding(new Insets(5, 5, 5, 5));
 		mainMenuGrid.setVgap(15);
 		mainMenuGrid.setHgap(30);
+
+        tableGrid.setAlignment(Pos.CENTER);
+        loginGrid.setAlignment(Pos.CENTER);
+        mainMenuGrid.setAlignment(Pos.CENTER);
 		
 		teamScreen(tableGrid);
 		loginScreen(loginGrid);
@@ -99,6 +99,7 @@ public class Layout extends Application{
 		
 		teamTable = new TableView<>();
 		teamTable.setEditable(true);
+		teamTable.setMaxHeight(Control.USE_PREF_SIZE);
 		teamTable.setItems(teams);
 		teamTable.getColumns().addAll(firstColumn, secondColumn);
 		
