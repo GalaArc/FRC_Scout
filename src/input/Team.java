@@ -1,23 +1,31 @@
 package input;
 
-public class InputMatches {
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+
+public class Team{
 	
-	int matchNumber;
+	private final SimpleStringProperty teamName;
+	private final SimpleIntegerProperty matchNumber;
 	
-	public InputMatches(){
-		this.matchNumber = 0;
-		
+	public Team(int matchNumber, String teamName){
+		this.teamName = new SimpleStringProperty(teamName);
+		this.matchNumber = new SimpleIntegerProperty(matchNumber);
 	}
 	
-	public InputMatches(int matchNumber){
-		this.matchNumber = matchNumber;
+	public double getMatchNumber(){
+		return matchNumber.get();
 	}
 	
-	public double getMatch(){
-		return matchNumber;
+	public String getTeamName(){
+		return teamName.get();
 	}
 	
-	public void setMatch(int matchNumber){
-		this.matchNumber = matchNumber;
+	public void setMatchNumber(int matchNumber){
+		this.matchNumber.set(matchNumber);
+	}
+	
+	public void setTeams(String teamName){
+		this.teamName.set(teamName);
 	}
 }
