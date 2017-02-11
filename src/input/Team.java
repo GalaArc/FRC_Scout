@@ -8,12 +8,18 @@ public class Team{
 	private final SimpleStringProperty teamName;
 	private final SimpleIntegerProperty matchNumber;
 	
+	//Default Values
+	public Team(){
+		matchNumber = new SimpleIntegerProperty(0);
+		teamName = new SimpleStringProperty("");
+	}
+	
 	public Team(int matchNumber, String teamName){
 		this.teamName = new SimpleStringProperty(teamName);
 		this.matchNumber = new SimpleIntegerProperty(matchNumber);
 	}
 	
-	public double getMatchNumber(){
+	public int getMatchNumber(){
 		return matchNumber.get();
 	}
 	

@@ -10,13 +10,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class Layout extends Application{
 	
-	Stage window;
+	static Stage window;
 	Scene login, mainMenu, teamScene;
 	TableView<Team> teamTable;
 	static final int layWidth = 1366;
@@ -30,6 +32,7 @@ public class Layout extends Application{
 	@Override
 	public void start(Stage stage) throws Exception {
 		window = stage;
+		window.setMaximized(true);
 		
 		GridPane tableGrid = new GridPane();
 		GridPane loginGrid = new GridPane();
@@ -51,7 +54,7 @@ public class Layout extends Application{
 		loginScreen(loginGrid);
 		mainMenu(mainMenuGrid);
 		
-		login = new Scene(loginGrid, layWidth, layHeight);
+		login = new Scene(loginGrid, window.getMaxWidth(), window.getMaxHeight());
 		
 		window.setScene(login);
 		window.setTitle("FRC Scouting Login");
@@ -71,20 +74,27 @@ public class Layout extends Application{
 		
 		TextField inputPassword = new TextField();
 		inputPassword.setPromptText("Input Password");
+		inputPassword.setOnKeyPressed(event -> {
+			if(event.getCode() == KeyCode.ENTER){
+				window.setScene(mainMenu);
+                setMaximized();
+			}
+		});
 		GridPane.setConstraints(inputPassword, 1, 1);
 		
 		Button login = new Button("Log in");
 		GridPane.setConstraints(login, 1, 2);
 		
-		login.setOnAction(event -> window.setScene(mainMenu));
-//		{
+		login.setOnAction(event -> {
+			window.setScene(mainMenu);
+			setMaximized();
 //			if (inputUsername.getText().equals("robolancers") && inputPassword.getText().equals("321lancers")) {
 //	            window.setScene(mainMenu);
 //	        } else {
 //	            
 //	        }
-//		});
-//		
+		});
+		
 		grid.getChildren().addAll(username, inputUsername, password, inputPassword, login);
 	}
 	
@@ -96,6 +106,10 @@ public class Layout extends Application{
 		TableColumn<Team, String> secondColumn = new TableColumn<>("Team Name");
 		secondColumn.setMinWidth(200);
 		secondColumn.setCellValueFactory(new PropertyValueFactory<>("teamName"));
+		secondColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+		secondColumn.setOnEditCommit(t -> {
+			t.getTableView().getItems().get(t.getTablePosition().getRow()).setTeams(t.getNewValue());
+		});
 		
 		teamTable = new TableView<>();
 		teamTable.setEditable(true);
@@ -110,7 +124,7 @@ public class Layout extends Application{
 		Button addTeamButton = new Button("Add Team");
 		addTeamButton.setOnAction(event -> AddTeams.addTeams());
 		
-		Button deleteTeamButton = new Button("Delete Team");
+		Button deleteTeamButton = new Button("Delete Selected Row");
 		deleteTeamButton.setOnAction(event -> handleDeleteButton());
 		
 		hbox.getChildren().addAll(addTeamButton, deleteTeamButton);
@@ -122,7 +136,10 @@ public class Layout extends Application{
 	
 	private void mainMenu(GridPane grid){
 		Button toTeamScreen = new Button("Team Screen");
-		toTeamScreen.setOnAction(event -> window.setScene(teamScene));
+		toTeamScreen.setOnAction(event -> {
+			window.setScene(teamScene);
+			setMaximized();
+		});
 		
 		mainMenu = new Scene(grid, layWidth, layHeight);
 		grid.add(toTeamScreen, 0, 0);
@@ -140,5 +157,11 @@ public class Layout extends Application{
 	        alert.setContentText("Please select a person in the table.");
 	        alert.showAndWait();
 	    }
+	}
+	
+	private void setMaximized(){
+        window.sizeToScene();
+        window.setMaximized(false);
+        window.setMaximized(true);
 	}
 }
